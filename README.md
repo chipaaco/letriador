@@ -4,7 +4,7 @@
 
 # letriador
 
-(lab-python-aed25) Utilidad para que el usuario genere archivos .lrc, a partir de una letra.
+Utilidad para el laboratorio de python de AED 2025; sirve para que el usuario genere manualmente archivos .lrc, a partir de una letra pre-existente.
 -
 -
 -
