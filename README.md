@@ -1,9 +1,7 @@
-NOMBRE DEL PROYECTO:
-# letriador
-(lab-python-aed25) Utilidad para que el usuario genere archivos .lrc, a partir de una letra.
+<p align="center">
+  <img src="logo.png" alt="Logo del proyecto" width="150">
+</p>
 
-Conformado por un equipo de 4 integrantes:
--
--
--
--
+# letriador
+
+Utilidad para el laboratorio de python de AED 2025; sirve para que el usuario genere manualmente archivos .lrc, a partir de una letra pre-existente.
