@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.png" alt="Logo del proyecto" width="150">
+  <img src="letriador.png" alt="Logo del proyecto" width="150">
 </p>
 
 # letriador
