@@ -1,51 +1,55 @@
-import os
+# --- MÓDULOS Y PAQUETES ---
+
+# -- Librería estándar
+
+# import time: nos puede servir para hacer un timer después
+
+# -- Del proyecto
+
+from utilidades import limpiar # para limpiar la terminal
+from cargar_letra import main as cargar_letra
+from generador import main as generar_lrc
+
+
+
+
+# --- FUNCIÓN PRINCIPAL ---
 
 def main():
-    os.system("clear")
+    limpiar()
     print(" _      _        _           _")
     print("| | ___| |_ _ __(_) __ _  __| | ___  _ __")
     print("| |/ _ \ __| '__| |/ _` |/ _` |/ _ \| '__|")
     print("| |  __/ |_| |  | | (_| | (_| | (_) | |")
     print("|_|\___|\__|_|  |_|\__,_|\__,_|\___/|_|")
     print("")
+    print("Estatus: la letra todavia no se carga")
+    print("")
     print("Opciones:")
-    print("1: cargar letra desde archivo")
-    print("2: generar archivo lrc")
+    print("1: cargar letra al programa")
+    print("2: generar archivo lrc") # deberia de haber una comprobacion, de que si la letra no fue cargada no deje generar el archivo
     print("3: ayuda")
     print("4: salir")
     print("")
     opcion = input("Elija una opción: ")
     if opcion == '1':
-        # cargar_archivo()
-        #   leer_de_ruta()
-        #       pregunta al usuario la ubicion el archvo que tiene la letra y lo lee
-        #   generar_lista_parrafos()
-        #   volver a main.py
-        os.system("clear") # despues crear una funcion limpiar_terminal() que tenga un os.system("*") para cada os popular
-        print("crear archivo")
-        archivo = input("Ingrese la ruta de la letra en texto plano [ej: ~/Music/letra.txt]: ")
-        print(archivo)
-        input()
+        limpiar()
+        cargar_letra() # crea una lista, sus elementos son los versos de la letra preveida por el usuario
         main()
+        
     elif opcion == '2':
-        os.system("clear")
-        # header() (print opciones)
-        # if !cancion_terminada
-        #    enter -> escribit_linea_en_archivo()
-        #               linea + linea + 1
-        #               print(lista[contador])
-        #               agregar al archivo timer actual + parrafo de la lista
-        #
+        limpiar()
+        generar_lrc()
+        # le pide al usuario el nombre del archivo de la cancion .mp3, flac, etc para crear el archivo.mp3.lrc que se creara
+        # le avisa al usuario que debe reproducir la cancion en segundo plano
+        # mientras no se presione Q, el generador no se detiene
+        #   el usario debe avisar con Enter cuando empieza el contador
+        #       el programa marca el momento en que arranca la cancion en el archivo de salida
+        #   cada que se presione Enter el programa agrega el momento del contador en que se presiono y concatena el verso correspondiente a su lado, el contador incrementa para seleccionar el siguiente elemento, y asi hasta que se corte el bucle
+        #   en caso que el usuario presione R, el generador se reiniciará.
+        # una vez fuera del bucle, se le preguntara al usuario si quiere visualizar el contenido del archivo, y se mostrara la ubicacion del archivo generado, y se sugerira que el usuario corte lo ubique manualmente en la misma ruta que su archivo de musica original.
+        main()
 
-        print("Vas a generar tu archivo .lrc")
-        print("Tené a mano un reproductor con tu canción, y la empieces a reproducir presioná enter en este programa")
-        print("Cada vez que se escuche entonar la estrofa que aparece por pantalla, precioná enter")
-        print("Si te equivocaste, y querés reiniciar la generación del archivo, precioná (r) seguido de enter")
-        print("Cuando la canción termine de reproducirse precioná (t) seguido de enter")
-        print("")
-        accion = 0
-        while accion != "q":
-            accion = input("Acción elegida: ")
         main()
     elif opcion == '3':
         print("")
