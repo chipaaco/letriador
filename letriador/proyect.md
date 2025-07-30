@@ -89,6 +89,3 @@ Funcion "A3": Generar Salida
 - Luego agregar complejidad: Multiples lineas.
 - Finalmente optimizar: Interfaz, validaciones, etc.
 
-Para LRC Generator:
-1. Tarea 1: Escribir una linea con tiempo manual.
-2. Tarea 2: Mostrar en formato [mm:ss.xx] linea
