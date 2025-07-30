@@ -2,13 +2,89 @@
 
 # -- Librería estándar
 
+import os # usado para limpiar terminal
 # import time: nos puede servir para hacer un timer después
 
-# -- Del proyecto
 
-from utilidades import limpiar # para limpiar la terminal
-from cargar_letra import main as cargar_letra
-from generador import main as generar_lrc
+
+
+# --- VARIABLES GLOBALES ---
+letra = []
+estatus = 0
+
+
+
+
+# --- Funciones Utilitarias ---
+
+# Limpiar la terminal de cualquier sistema operativo
+def limpiar():
+    if os.name == 'nt':
+        os.system('cls') # si el sistema es windows
+    else:
+        os.system('clear') # si el sistema se parece a UNIX (linux o mac)
+
+def mostrar_estatus():
+    texto = "Estatus: "
+    if estatus == 0:
+        print(texto + "la letra todavia no se carga")
+    elif estatus == 1:
+        print(texto + "La letra está cargada")
+    elif estatus == 2:
+        print(texto + "Archivo LRC Generado")
+    else:
+        print("algo mal con la variable estatus " + estatus)
+
+
+
+
+# --- Funciones #1: generar letra del programa ---
+
+def cargar_letra():
+    print("crear una lista")
+    print("Pegá o escribí acá el contenido de la letra que hayas encontrado en internet y luego apretá Ctrl-D o Ctrl-Z para guardarlo.")
+    print("")
+    while True:
+        try:
+            verso = input()
+        except EOFError:
+            break
+        letra.append(verso)
+    print(letra)
+    global estatus
+    estatus = 2
+    print(estatus)
+    input()
+    # deberia preguntarse si quiere volver a intentar, por si se esquivoco en la escritura
+    # deberian quitarse los dobles espacios de la lista
+
+
+
+
+# --- Funciones #2: generar archivo .lrc ---
+
+def generar_lrc():
+    if estatus != 2:
+        print("No se puede generar nada si no se carga una letra primero")
+        input()
+    else:
+        print("Vas a generar tu archivo .lrc")
+        print("Tené a mano un reproductor con tu canción, y la empieces a reproducir presioná enter en este programa")
+        print("Cada vez que se escuche entonar la estrofa que aparece por pantalla, precioná (enter)")
+        print("Si te equivocaste, y querés reiniciar la generación del archivo, precioná (r) seguido de enter")
+        print("Cuando la canción termine de reproducirse precioná (t) seguido de enter")
+        print("Cuando la cancion termine presiona (q)")
+        print("")
+        accion = 0
+        while accion != "q":
+            accion = input("Acción elegida: ")
+            if accion == "":
+                print("mostrar linea agregada al archivo .lrc [00:00:00] verso que se esta cantando")
+                accion = 0
+            elif accion == "r":
+                print("ok, todos nos equivocamos, empecemos de cero...")
+                # poner una confirmacion: seguro? si o no
+                accion = 0
 
 
 
@@ -23,20 +99,21 @@ def main():
     print("| |  __/ |_| |  | | (_| | (_| | (_) | |")
     print("|_|\___|\__|_|  |_|\__,_|\__,_|\___/|_|")
     print("")
-    print("Estatus: la letra todavia no se carga")
+    mostrar_estatus()
     print("")
     print("Opciones:")
     print("1: cargar letra al programa")
-    print("2: generar archivo lrc") # deberia de haber una comprobacion, de que si la letra no fue cargada no deje generar el archivo
+    print("2: generar archivo lrc")
     print("3: ayuda")
     print("4: salir")
     print("")
+
     opcion = input("Elija una opción: ")
     if opcion == '1':
         limpiar()
-        cargar_letra() # crea una lista, sus elementos son los versos de la letra preveida por el usuario
+        cargar_letra() # crea una lista, sus elementos son los versos de la letra proveída por el usuario
         main()
-        
+
     elif opcion == '2':
         limpiar()
         generar_lrc()
@@ -50,7 +127,6 @@ def main():
         # una vez fuera del bucle, se le preguntara al usuario si quiere visualizar el contenido del archivo, y se mostrara la ubicacion del archivo generado, y se sugerira que el usuario corte lo ubique manualmente en la misma ruta que su archivo de musica original.
         main()
 
-        main()
     elif opcion == '3':
         print("")
         print("¿Que es un archivo lrc?")
