@@ -40,23 +40,44 @@ def mostrar_estatus():
 
 # --- Funciones #1: generar letra del programa ---
 
+def formatear_letra(letra_descuageringada):
+    lista_arreglada = []
+    for verso in letra_descuageringada:
+        if verso != "":
+            lista_arreglada.append(verso)
+
+    return lista_arreglada
+
 def cargar_letra():
     print("crear una lista")
     print("Pegá o escribí acá el contenido de la letra que hayas encontrado en internet y luego apretá Ctrl-D o Ctrl-Z para guardarlo.")
     print("")
+
     while True:
-        try:
+        try: # pide al usuario que ingrese texto infinitamente
             verso = input()
-        except EOFError:
+        except EOFError: # cambia la acción que ocurre por defecto cuando se presiona Ctrl + c o Ctrl + c por un break que corta el ciclo infinito
             break
-        letra.append(verso)
+        global letra
+        letra.append(verso) # agrega al final de la lista, cada línea (verso) que va ingresando el usuario
+
+    print("")
+    print("Esta es la lista que se generó:")
+    letra = formatear_letra(letra)
     print(letra)
-    global estatus
-    estatus = 2
-    print(estatus)
-    input()
-    # deberia preguntarse si quiere volver a intentar, por si se esquivoco en la escritura
-    # deberian quitarse los dobles espacios de la lista
+    print("")
+    print("¿Estás satisfecho/a?")
+    satisfaccion = input("Presioná cualquier tecla para continuar, o (r) para volver a cargar: ")
+    if satisfaccion == "r":
+        letra = []
+        input("Entendido, volvamos a cargar la letra")
+        limpiar()
+        cargar_letra()
+
+    else:
+        global estatus # para modificar la variable que esta afuera de la función
+        estatus = 2
+        input("Perfecto, ahora podés continuar con la opción 2")
 
 
 
