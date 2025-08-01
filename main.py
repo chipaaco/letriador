@@ -3,7 +3,7 @@
 # -- Librería estándar
 
 import os # usado para limpiar terminal
-# import time: nos puede servir para hacer un timer después
+import time # sirve para hacer un timer en la opción 2
 
 
 
@@ -76,7 +76,7 @@ def cargar_letra():
 
     else:
         global estatus # para modificar la variable que esta afuera de la función
-        estatus = 2
+        estatus = 1
         input("Perfecto, ahora podés continuar con la opción 2")
 
 
@@ -85,27 +85,49 @@ def cargar_letra():
 # --- Funciones #2: generar archivo .lrc ---
 
 def generar_lrc():
-    if estatus != 2:
+    global estatus
+    if estatus == 0:
         print("No se puede generar nada si no se carga una letra primero")
         input()
     else:
         print("Vas a generar tu archivo .lrc")
-        print("Tené a mano un reproductor con tu canción, y la empieces a reproducir presioná enter en este programa")
-        print("Cada vez que se escuche entonar la estrofa que aparece por pantalla, precioná (enter)")
-        print("Si te equivocaste, y querés reiniciar la generación del archivo, precioná (r) seguido de enter")
-        print("Cuando la canción termine de reproducirse precioná (t) seguido de enter")
-        print("Cuando la cancion termine presiona (q)")
-        print("")
+        nombre_archivo = input("¿Cómo se llama el archivo de música que tenés? [ej: tinta_roja.mp3]: ")
+        nombre_archivo_lrc = nombre_archivo + ".lrc"
+        input(nombre_archivo_lrc)
+        limpiar()
+        input("Vas a necesitar un reproductor externo... apenas empiece la reproducción de tu canción, presioná (enter)")
+        # iniciar contador
+        # time.perf_counter()
+        # se debe crear el archivo y escribir 00.00.00 sin letra
+        
+        limpiar()
+        
         accion = 0
+        ultima_grabacion = ""
+        contador_simu = 0
         while accion != "q":
+            print("La canción " + nombre_archivo + " empezó a reproducirse")
+            print("")
+            print("Grabar verso actual (enter) | Reiniciar grabacion (r) | Finalizar grabación / cancelar grabación (q)")
+            print("")
+            if ultima_grabacion != "":
+                print(ultima_grabacion)
             accion = input("Acción elegida: ")
             if accion == "":
-                print("mostrar linea agregada al archivo .lrc [00:00:00] verso que se esta cantando")
+                contador_simu = contador_simu + 1
+                ultima_grabacion = "[00:00:0" + str(contador_simu) + "] verso que se esta cantando"
+                with open(nombre_archivo_lrc, 'w') as archivo:
+                    archivo.write("holis uwu")
                 accion = 0
             elif accion == "r":
                 print("ok, todos nos equivocamos, empecemos de cero...")
-                # poner una confirmacion: seguro? si o no
+                limpiar()
+                generar_lrc()
                 accion = 0
+            else:
+                print("fijate, qué tecla apretaste mal")
+            limpiar()
+        estatus = 2
 
 
 
