@@ -89,3 +89,93 @@ Funcion "A3": Generar Salida
 - Luego agregar complejidad: Multiples lineas.
 - Finalmente optimizar: Interfaz, validaciones, etc.
 
+
+
+
+
+
+
+
+
+# Pseudocodigo
+## Pseudocodigo del Programa LRC
+INICIO DEL PROGRAMA
+
+1. Mostrar la pantalla principal con el título y las opciones:
+      1: Cargar letra al programa
+      2: Generar archivo LRC
+      3: Ayuda
+      4: Salir
+
+2. Pedir al usuario que elija una opción
+
+3. SEGÚN la opción elegida HACER:
+      SI opción = 1 ENTONCES
+          → LLAMAR a procedimiento CARGAR_LETRA
+          → Volver al menú principal
+
+      SI opción = 2 ENTONCES
+          → LLAMAR a procedimiento GENERAR_LRC
+          → Volver al menú principal
+
+      SI opción = 3 ENTONCES
+          → Mostrar la explicación de qué es un archivo LRC
+          → Esperar que el usuario presione una tecla
+          → Volver al menú principal
+
+      SI opción = 4 ENTONCES
+          → Mostrar "¡Gracias por usar!"
+          → TERMINAR el programa
+
+      EN CUALQUIER OTRO CASO
+          → Mostrar "Opción no válida"
+          → Volver al menú principal
+
+## Procedimiento CARGAR_LETRA
+
+1. Mostrar: "Pegá o escribí la letra de la canción. Presioná Ctrl+D o Ctrl+Z para finalizar."
+
+2. Crear una LISTA llamada LETRA vacía.
+
+3. Mientras el usuario escriba líneas HACER:
+      → Leer la línea
+      → Agregar la línea a la lista LETRA
+
+4. Mostrar en pantalla la lista completa de versos cargados.
+
+5. Preguntar: "¿Querés volver a intentarlo porque te equivocaste? (s/n)"
+      SI respuesta = "s" ENTONCES
+          → Volver a CARGAR_LETRA
+      SI respuesta = "n" ENTONCES
+          → Salir y volver al menú principal
+
+## Procedimiento GENERAR_LRC
+
+1. Mostrar instrucciones:
+      - Reproducí la canción
+      - Presioná ENTER cuando se cante cada verso
+      - Presioná "r" para reiniciar
+      - Presioná "t" cuando termine la canción
+      - Presioná "q" para salir
+
+2. Crear un contador de verso = 0
+
+3. Mientras el usuario no presione "q" HACER:
+      → Mostrar el verso actual de la lista LETRA[contador]
+      → Leer lo que presiona el usuario:
+
+          SI presiona ENTER ENTONCES
+              - Registrar el tiempo (HH:MM:SS)
+              - Guardar el verso con el tiempo en el archivo LRC
+              - Avanzar al siguiente verso
+
+          SI presiona "r" ENTONCES
+              - Preguntar: "¿Seguro que querés reiniciar? (s/n)"
+              - Si dice "s", borrar lo que se haya generado y volver a empezar
+              - Si dice "n", seguir normalmente
+
+          SI presiona "t" ENTONCES
+              - Terminar de generar el archivo
+              - Mostrar la ubicación del archivo .lrc
+              - Salir del procedimiento
+
