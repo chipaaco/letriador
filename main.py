@@ -1,146 +1,60 @@
-# --- MÓDULOS Y PAQUETES ---
+# --- MODULOS DEL PROYECTO --
+from utilitarios import limpiar, mostrar_estatus
+from manejo_letra import cargar_letra
+from generador_lrc import generar_lrc
 
-# -- Librería estándar
+def mostrar_ayuda():
+    # Muestra la pantalla de ayuda (opción 3 del main())
+    limpiar()
+    print(r"""Ayuda:
 
-import os # usado para limpiar terminal
-# import time: nos puede servir para hacer un timer después
-
-
-
-
-# --- VARIABLES GLOBALES ---
-letra = []
-estatus = 0
-
-
-
-
-# --- Funciones Utilitarias ---
-
-# Limpiar la terminal de cualquier sistema operativo
-def limpiar():
-    if os.name == 'nt':
-        os.system('cls') # si el sistema es windows
-    else:
-        os.system('clear') # si el sistema se parece a UNIX (linux o mac)
-
-def mostrar_estatus():
-    texto = "Estatus: "
-    if estatus == 0:
-        print(texto + "la letra todavia no se carga")
-    elif estatus == 1:
-        print(texto + "La letra está cargada")
-    elif estatus == 2:
-        print(texto + "Archivo LRC Generado")
-    else:
-        print("algo mal con la variable estatus " + estatus)
-
-
-
-
-# --- Funciones #1: generar letra del programa ---
-
-def cargar_letra():
-    print("crear una lista")
-    print("Pegá o escribí acá el contenido de la letra que hayas encontrado en internet y luego apretá Ctrl-D o Ctrl-Z para guardarlo.")
-    print("")
-    while True:
-        try:
-            verso = input()
-        except EOFError:
-            break
-        letra.append(verso)
-    print(letra)
-    global estatus
-    estatus = 2
-    print(estatus)
-    input()
-    # deberia preguntarse si quiere volver a intentar, por si se esquivoco en la escritura
-    # deberian quitarse los dobles espacios de la lista
-
-
-
-
-# --- Funciones #2: generar archivo .lrc ---
-
-def generar_lrc():
-    if estatus != 2:
-        print("No se puede generar nada si no se carga una letra primero")
-        input()
-    else:
-        print("Vas a generar tu archivo .lrc")
-        print("Tené a mano un reproductor con tu canción, y la empieces a reproducir presioná enter en este programa")
-        print("Cada vez que se escuche entonar la estrofa que aparece por pantalla, precioná (enter)")
-        print("Si te equivocaste, y querés reiniciar la generación del archivo, precioná (r) seguido de enter")
-        print("Cuando la canción termine de reproducirse precioná (t) seguido de enter")
-        print("Cuando la cancion termine presiona (q)")
-        print("")
-        accion = 0
-        while accion != "q":
-            accion = input("Acción elegida: ")
-            if accion == "":
-                print("mostrar linea agregada al archivo .lrc [00:00:00] verso que se esta cantando")
-                accion = 0
-            elif accion == "r":
-                print("ok, todos nos equivocamos, empecemos de cero...")
-                # poner una confirmacion: seguro? si o no
-                accion = 0
-
-
-
-
-# --- FUNCIÓN PRINCIPAL ---
+¿Qué es un archivo .lrc?
+Es un archivo de texto plano que contiene la letra de una canción junto con marcas de tiempo.
+Los reproductores de música compatibles usan estos archivos para mostrar la letra sincronizada con la canción.
+Para que funcione, el archivo .lrc debe tener el mismo nombre que el archivo de audio y estar en la misma carpeta.
+Ejemplo: cancion.mp3 y cancion.lrc
+""")
+    input("Apreta Enter para volver al inicio...")
 
 def main():
-    limpiar()
-    print(" _      _        _           _")
-    print("| | ___| |_ _ __(_) __ _  __| | ___  _ __")
-    print("| |/ _ \ __| '__| |/ _` |/ _` |/ _ \| '__|")
-    print("| |  __/ |_| |  | | (_| | (_| | (_) | |")
-    print("|_|\___|\__|_|  |_|\__,_|\__,_|\___/|_|")
-    print("")
-    mostrar_estatus()
-    print("")
-    print("Opciones:")
-    print("1: cargar letra al programa")
-    print("2: generar archivo lrc")
-    print("3: ayuda")
-    print("4: salir")
-    print("")
-
-    opcion = input("Elija una opción: ")
-    if opcion == '1':
+    # Función principal que ejecuta el bucle del programa
+    letra_actual = []
+    estatus_actual = 0
+    
+    while True:
         limpiar()
-        cargar_letra() # crea una lista, sus elementos son los versos de la letra proveída por el usuario
-        main()
+        print(r"""
+ _      _        _           _
+| | ___| |_ _ __(_) __ _  __| | ___  _ __
+| |/ _ \ __| '__| |/ _` |/ _` |/ _ \| '__|
+| |  __/ |_| |  | | (_| | (_| | (_) | |
+|_|\___|\__|_|  |_|\__,_|\__,_|\___/|_|
+        """)
+        mostrar_estatus(estatus_actual)
+        print(r"""
+Opciones:
+1: Cargar letra al programa
+2: Generar archivo .lrc
+3: Ayuda
+4: Salir
+        """)
+        opcion = input("Elegí una opción: ")
+        
+        if opcion == '1':
+            letra_actual, estatus_actual = cargar_letra()
+        
+        elif opcion == '2':
+            estatus_actual = generar_lrc(letra_actual, estatus_actual)
 
-    elif opcion == '2':
-        limpiar()
-        generar_lrc()
-        # le pide al usuario el nombre del archivo de la cancion .mp3, flac, etc para crear el archivo.mp3.lrc que se creara
-        # le avisa al usuario que debe reproducir la cancion en segundo plano
-        # mientras no se presione Q, el generador no se detiene
-        #   el usario debe avisar con Enter cuando empieza el contador
-        #       el programa marca el momento en que arranca la cancion en el archivo de salida
-        #   cada que se presione Enter el programa agrega el momento del contador en que se presiono y concatena el verso correspondiente a su lado, el contador incrementa para seleccionar el siguiente elemento, y asi hasta que se corte el bucle
-        #   en caso que el usuario presione R, el generador se reiniciará.
-        # una vez fuera del bucle, se le preguntara al usuario si quiere visualizar el contenido del archivo, y se mostrara la ubicacion del archivo generado, y se sugerira que el usuario corte lo ubique manualmente en la misma ruta que su archivo de musica original.
-        main()
-
-    elif opcion == '3':
-        print("")
-        print("¿Que es un archivo lrc?")
-        print("")
-        print("Es un archivo que comparte la misma ruta y nombre que un archivo de audio (mp3, flac, wav, etc), contiene el momento exacto en que se canta una estrofa en una canción. Una característica es que su archivo termina con la extensión .lrc.")
-        print("")
-        input("Precioná cualquier tecla para volver al inicio: ")
-        main()
-    elif opcion == '4':
-        print("¡Gracias por usar!")
-    else:
-        input("Opción no válida. Apretá Enter para continuar...")
-        main()
+        elif opcion == '3':
+            mostrar_ayuda()
+        
+        elif opcion == '4':
+            print("\n¡Adios!")
+            break
+        
+        else:
+            input("\nOpción no válida. Apretá Enter para continuar...")
 
 if __name__ == "__main__":
     main()
-
