@@ -1,7 +1,7 @@
 # --- MODULOS DEL PROYECTO --
 from utilitarios import limpiar, mostrar_estatus
 from manejo_letra import cargar_letra
-from generador_lrc import generar_lrc
+from generador_lrc import generar_txt
 
 def mostrar_ayuda():
     # Muestra la pantalla de ayuda (opción 3 del main())
@@ -44,7 +44,7 @@ Opciones:
             letra_actual, estatus_actual = cargar_letra()
         
         elif opcion == '2':
-            estatus_actual = generar_lrc(letra_actual, estatus_actual)
+            estatus_actual = generar_txt(letra_actual, estatus_actual)
 
         elif opcion == '3':
             mostrar_ayuda()
