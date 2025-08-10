@@ -2,8 +2,8 @@ import os
 import time
 from utilitarios import limpiar
 
-def generar_lrc(letra, estatus_actual):
-    # Genera el archivo .lrc sincronizando la letra proporcionada.
+def generar_txt(letra, estatus_actual):
+    # Genera el archivo .txt sincronizando la letra proporcionada.
     # Recibe la letra y el estatus como parámetros.
     # Devuelve el nuevo estatus del programa.
     if estatus_actual == 0:
@@ -11,7 +11,7 @@ def generar_lrc(letra, estatus_actual):
         input("Apretá Enter para volver al menú...")
         return estatus_actual
 
-    print("Generar Archivo .lrc:\n")
+    print("Generar Archivo .txt:\n")
     nombre_archivo = input("¿Cómo se llama el archivo de música? (ej: tinta_roja.mp3): ")
     if not nombre_archivo:
         print("Nombre mal puesto")
@@ -19,24 +19,24 @@ def generar_lrc(letra, estatus_actual):
         return estatus_actual
 
     nombre_base, _ = os.path.splitext(nombre_archivo) # cancion.mp3 -> cancion, mp3 (https://docs.python.org/3/library/os.path.html#os.path.splitext)
-               # _ es una convencion cuando no nos interesa la variable
-    nombre_archivo_lrc = nombre_base + ".lrc"
+    # _ es una convencion cuando no nos interesa la variable
+    nombre_archivo_txt = nombre_base + ".txt"
 
     limpiar()
-    print("El archivo se guardará como: " + nombre_archivo_lrc)
+    print("El archivo se guardará como: " + nombre_archivo_txt)
     print("")
     print("PREPARATE!")
     print("Reproducí tu canción en un reproductor externo.")
-    input("Apenas empiece la música, apretá Eenter para iniciar el cronómetro...")
+    input("Apenas empiece la música, apretá Enter para iniciar el cronómetro...")
 
     cronometro = time.time()
     indice_verso = 0
     nuevo_estatus = estatus_actual
 
     # inicializar archivo para escritura
-    with open(nombre_archivo_lrc, 'w', encoding='utf-8') as archivo_lrc:
+    with open(nombre_archivo_txt, 'w', encoding='utf-8') as archivo_txt:
         # with gestiona el contexto del archivo
-        print("\nArrancó el conómetro y el archivo "+ nombre_archivo_lrc + " fue creado.")
+        print("\nArrancó el cronómetro y el archivo "+ nombre_archivo_txt + " fue creado.")
         print("---")
         print("")
 
@@ -48,9 +48,9 @@ def generar_lrc(letra, estatus_actual):
             limpiar()
             print("Sincronizando: "+ nombre_archivo)
             # leer archivo sin un gestor de contexto
-            incompleto_lrc = open(nombre_archivo_lrc, 'r')
-            print(incompleto_lrc.read())
-            incompleto_lrc.close()
+            incompleto_txt = open(nombre_archivo_txt, 'r')
+            print(incompleto_txt.read())
+            incompleto_txt.close()
             print("---")
             print("VERSO ACTUAL: (", indice_verso + 1, "/", len(letra), ")")
             print(letra[indice_verso])
@@ -70,15 +70,15 @@ def generar_lrc(letra, estatus_actual):
                 linea_completa = timestamp + letra[indice_verso] + "\n"
 
                 # escribir archivo
-                archivo_lrc.write(linea_completa) #escribe en el buffer
-                archivo_lrc.flush() #forzar escritura archivo
+                archivo_txt.write(linea_completa) #escribe en el buffer
+                archivo_txt.flush() #forzar escritura archivo
                 
                 indice_verso += 1
 
             elif accion == 'r':
                 print("\nReiniciando...")
                 # salimos con return y la función se vuelve a llamar desde el menu principal
-                return generar_lrc(letra, estatus_actual) 
+                return generar_txt(letra, estatus_actual) 
 
             elif accion == 'q':
                 print("\nGrabación cancelada por el usuario.")
